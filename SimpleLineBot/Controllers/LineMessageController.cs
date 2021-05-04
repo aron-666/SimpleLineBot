@@ -33,8 +33,11 @@ namespace SimpleLineBot.Controllers
             //string s = System.Text.Encoding.UTF8.GetString(data);
             var bot = _lineBotLEDService.GetBotFromToken(token);
             if (bot is null)
-                return NotFound();
+                return Ok();
             //ViewModels.ReplyMessage msg = JsonConvert.DeserializeObject<ViewModels.ReplyMessage>(s);
+            
+            
+            //只回應文字訊息
             if (msg.events[0].message.type == "text")
             {
                 string resp = "";

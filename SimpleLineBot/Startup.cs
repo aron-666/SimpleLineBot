@@ -56,6 +56,8 @@ namespace SimpleLineBot
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddScoped<Services.LineBotLEDService>();
+
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +76,15 @@ namespace SimpleLineBot
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseOpenApi();       // serve OpenAPI/Swagger documents
+
+            app.UseSwaggerUi3();    // serve Swagger UI
+
+            app.UseReDoc(config =>  // serve ReDoc UI
+            {
+                // 這裡的 Path 用來設定 ReDoc UI 的路由 (網址路徑) (一定要以 / 斜線開頭)
+                config.Path = "/redoc";
+            });
 
             app.UseRouting();
 

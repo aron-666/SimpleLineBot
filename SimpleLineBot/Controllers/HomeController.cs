@@ -20,6 +20,7 @@ namespace SimpleLineBot.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.PathRoot = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
             return View();
         }
 
