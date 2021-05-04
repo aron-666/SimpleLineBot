@@ -1,0 +1,107 @@
+﻿@model IEnumerable<SimpleLineBot.Models.DB.Bot>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<script>
+    function _delete(id, name) {
+        if (window.confirm("確定要刪除" + name + "嗎?")) {
+            window.location.href = "delete/" + id;
+        }
+    }
+    function copy(text) {
+        let d = document.getElementById("copy");
+        d.innerText = '@ViewBag.RootPath' + text;
+        copyEvent('copy');
+    }
+    function copyEvent(id) {
+
+        var str = document.getElementById(id);
+        str.hidden = '';
+        window.getSelection().selectAllChildren(str);
+        document.execCommand("Copy")
+        str.hidden = 'hidden';
+    }
+</script>
+
+<h1>List</h1>
+<p hidden="hidden" id="copy"></p>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="table-responsive table-bordered">
+    <table class="table table-dark  text-nowrap">
+        <thead>
+            <tr>
+                <th>Access</th>
+                <th>Token</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChannelSecret)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChannelAccessToken)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enable)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    
+                    <a class="btn btn-sm btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" onclick="_delete(@item.Id, '@item.Name')">Delete</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UrlToken)
+
+                    <a class="btn btn-sm btn-success" onclick="copy('@item.UrlToken')">複製Hook網址</a>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChannelSecret)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChannelAccessToken)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Enable)
+                    <a class="btn btn-sm btn-warning" asp-action="changestatus" asp-route-id="@item.Id">Change</a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
